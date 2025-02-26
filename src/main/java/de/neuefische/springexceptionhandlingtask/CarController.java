@@ -1,7 +1,9 @@
 package de.neuefische.springexceptionhandlingtask;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.NoSuchElementException;
 
 @RestController
@@ -19,5 +21,11 @@ public class CarController {
     @GetMapping
     String getAllCars() {
         throw new NoSuchElementException("No Cars found");
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorMessage handleIllegalArgumentException() {
+        return new ErrorMessage("Only 'porsche' is allowed", LocalDateTime.now());
     }
 }
